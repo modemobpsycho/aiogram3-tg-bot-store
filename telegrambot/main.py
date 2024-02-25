@@ -1,27 +1,34 @@
-from aiogram import Bot, Dispatcher, executor, types
+from aiogram import Bot, Dispatcher
+from aiogram.filters import Command
+from aiogram.types import Message
+
+BOT_TOKEN = ""
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
 
 
-TOKEN_API = ""
-
-HELP_COMMAND = """
-/help - commands list
-/start - work with bot
-"""
-
-bot = Bot(TOKEN_API)
-dp = Dispatcher(bot)
+@dp.message(Command(commands="start"))
+async def process_start_command(message: Message):
+    await message.answer("Привет!\nМеня зовут Эхо-бот!\nНапиши мне что-нибудь")
 
 
-@dp.message_handler(command=["help"])
-async def help_command(message: types.Message):
-    await message.reply(text=HELP_COMMAND)
+@dp.message(Command(commands="help"))
+async def process_help_command(message: Message):
+    await message.answer(
+        "Напиши мне что-нибудь и в ответ " "я пришлю тебе твое сообщение"
+    )
 
 
-@dp.message_handler(command=["start"])
-async def help_command(message: types.Message):
-    await message.answer(text="WEEEEEELCOME!!")
-    await message.delete()
+@dp.message()
+async def send_echo(message: Message):
+    try:
+        await message.send_copy(chat_id=message.chat.id)
+    except TypeError:
+        await message.reply(
+            text="Данный тип апдейтов не поддерживается " "методом send_copy"
+        )
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp)
+    dp.run_polling(bot)
