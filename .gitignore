@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+bot_base.db
+banners
+
 # Distribution / packaging
 .Python
 build/
