@@ -78,9 +78,6 @@ async def delete_product_callback(callback: types.CallbackQuery, session: AsyncS
     await callback.message.answer("Товар удален!")
 
 
-# FSM
-
-
 class AddBanner(StatesGroup):
     image = State()
 
@@ -134,7 +131,7 @@ class AddProduct(StatesGroup):
         "AddProduct:description": "Введите описание заново:",
         "AddProduct:category": "Выберите категорию  заново ⬆️",
         "AddProduct:price": "Введите стоимость заново:",
-        "AddProduct:image": "Этот стейт последний, поэтому...",
+        "AddProduct:image": "Этот для фото, поэтому...",
     }
 
 
@@ -243,6 +240,7 @@ async def add_description2(message: types.Message, state: FSMContext):
     await message.answer("Вы ввели не допустимые данные, введите текст описания товара")
 
 
+# callback выбора категории
 @admin_router.callback_query(AddProduct.category)
 async def category_choice(
     callback: types.CallbackQuery, state: FSMContext, session: AsyncSession

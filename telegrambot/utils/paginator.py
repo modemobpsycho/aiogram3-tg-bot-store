@@ -1,12 +1,14 @@
 import math
 
 
+# Простой пагинатор
 class Paginator:
     def __init__(self, array: list | tuple, page: int = 1, per_page: int = 1):
         self.array = array
         self.per_page = per_page
         self.page = page
         self.len = len(self.array)
+        # math.ceil - округление в большую сторону до целого числа
         self.pages = math.ceil(self.len / self.per_page)
 
     def __get_slice(self):
